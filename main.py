@@ -2,32 +2,38 @@ import tkinter as tk
 from tkinter import filedialog, messagebox
 from tkinter import ttk
 from PIL import Image
-import piexif
 import os
 
 class MetadataRemoverApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Metadata Remover")
-        self.root.geometry("400x200")
+        self.root.geometry("500x300")
+        self.root.configure(bg='#2e3b4e')
 
         self.create_widgets()
 
     def create_widgets(self):
-        frame = ttk.Frame(self.root, padding="10")
+        style = ttk.Style()
+        style.configure('TFrame', background='#2e3b4e')
+        style.configure('TLabel', background='#2e3b4e', foreground='white', font=('Helvetica', 12))
+        style.configure('TButton', background='#4a90e2', foreground='white', font=('Helvetica', 12, 'bold'))
+        style.configure('TProgressbar', troughcolor='#2e3b4e', background='#4a90e2')
+
+        frame = ttk.Frame(self.root, padding="20")
         frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
 
         self.label = ttk.Label(frame, text="Select an image file to remove all metadata")
-        self.label.grid(row=0, column=0, columnspan=2, pady=10)
+        self.label.grid(row=0, column=0, columnspan=2, pady=20)
 
         self.select_button = ttk.Button(frame, text="Select Image", command=self.select_image)
-        self.select_button.grid(row=1, column=0, pady=10, padx=5)
+        self.select_button.grid(row=1, column=0, pady=10, padx=5, sticky=(tk.W, tk.E))
 
         self.save_button = ttk.Button(frame, text="Save Image", command=self.save_image, state=tk.DISABLED)
-        self.save_button.grid(row=1, column=1, pady=10, padx=5)
+        self.save_button.grid(row=1, column=1, pady=10, padx=5, sticky=(tk.W, tk.E))
 
         self.progress = ttk.Progressbar(frame, orient="horizontal", mode="determinate")
-        self.progress.grid(row=2, column=0, columnspan=2, pady=10, sticky=(tk.W, tk.E))
+        self.progress.grid(row=2, column=0, columnspan=2, pady=20, sticky=(tk.W, tk.E))
 
     def select_image(self):
         self.file_path = filedialog.askopenfilename(
